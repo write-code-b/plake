@@ -7,9 +7,14 @@ class GatheringService extends Service {
     this.setToken("");
   }
 
-  getGatheringList() {
-    const data = this.http.get<IGathering[]>("/gatherings");
-    return data;
+  getGatheringList(filters?: string) {
+    if (filters) {
+      console.log("[getGatheringList] filter", filters);
+      return this.http.get<IGathering[]>(`/gatherings${filters}`);
+    } else {
+      console.log("[getGatheringList] no filter", filters);
+    }
+    return this.http.get<IGathering[]>("/gatherings");
   }
   getGatheringDetail(id: string) {
     const data = this.http.get<IGathering>(`/gatherings/${id}`);

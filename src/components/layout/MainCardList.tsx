@@ -1,11 +1,20 @@
 "use client";
 
-import { useSuspenseGatheringList } from "@/hooks/gathering/useGatheringList";
+import { useEffect } from "react";
+
+import { useGatheringList } from "@/hooks/gathering/useGatheringList";
+import { useParams } from "@/stores/useParamsStore";
 
 import MainCardItem from "./MainCardItem";
 
 const MainCardList = () => {
-  const { data } = useSuspenseGatheringList();
+  const params = useParams();
+
+  const { data } = useGatheringList(params);
+
+  useEffect(() => {
+    console.log("MainCardLIst", params);
+  }, [params]);
 
   return (
     <div className="flex flex-col items-center justify-center gap-6">

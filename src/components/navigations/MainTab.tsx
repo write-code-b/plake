@@ -5,12 +5,14 @@ interface IMainTabProps {
   onClickTab: (value: string) => void;
   activeMainTabIdx: number;
   setActiveMainTabIdx: React.Dispatch<React.SetStateAction<number>>;
+  setActiveSubTabIdx: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const MainTab = ({
   onClickTab,
   activeMainTabIdx,
   setActiveMainTabIdx,
+  setActiveSubTabIdx,
 }: IMainTabProps) => {
   return (
     <div className="mb-6 flex items-center gap-3">
@@ -20,6 +22,7 @@ const MainTab = ({
           onClick={() => {
             onClickTab(tab.value);
             setActiveMainTabIdx(i);
+            setActiveSubTabIdx(0);
           }}
           aria-label="메인 주제 탭"
           className="relative"

@@ -1,17 +1,20 @@
-import { useState } from "react";
-
 import { Button } from "@/components/ui/Button";
 import { SUB_TAB } from "@/constants/ui";
 import { cn } from "@/lib/utils";
 
 interface ISubTabProps {
   onClickTab: (value: string) => void;
+  activeSubTabIdx: number;
+  setActiveSubTabIdx: React.Dispatch<React.SetStateAction<number>>;
   isOffline: boolean;
 }
 
-const SubTab = ({ onClickTab, isOffline }: ISubTabProps) => {
-  const [activeSubTabIdx, setActiveSubTabIdx] = useState<number>(0);
-
+const SubTab = ({
+  onClickTab,
+  isOffline,
+  activeSubTabIdx,
+  setActiveSubTabIdx,
+}: ISubTabProps) => {
   return (
     <div className="align-center mb-6 flex gap-2">
       {SUB_TAB[isOffline ? "OFFLINE" : "ONLINE"].map((tab, i) => (

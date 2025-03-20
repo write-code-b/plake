@@ -8,9 +8,9 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
 import GatheringService from "@/services/gathering/GatheringService";
 import { IGathering } from "@/types/gathering";
 
-const gatheringQueryOption = () => ({
-  queryKey: [QUERY_KEYS.GATHERING.list],
-  queryFn: () => GatheringService.getGatheringList(),
+const gatheringQueryOption = (params?: string) => ({
+  queryKey: [QUERY_KEYS.GATHERING.list, params],
+  queryFn: () => GatheringService.getGatheringList(params),
   initialPageParam: 1,
   throwOnError: true,
   retry: false,
@@ -19,14 +19,20 @@ const gatheringQueryOption = () => ({
   },
 });
 
-export const useGatheringList = () => {
-  return useInfiniteQuery(gatheringQueryOption());
+export const useGatheringList = (params?: string) => {
+  if (params) console.log("[useGatheringList]", params);
+  return useInfiniteQuery(gatheringQueryOption(params));
 };
 
-export const useSuspenseGatheringList = () => {
-  return useSuspenseInfiniteQuery(gatheringQueryOption());
+export const useSuspenseGatheringList = (params?: string) => {
+  if (params) console.log("[useSuspenseGatheringList]", params);
+  return useSuspenseInfiniteQuery(gatheringQueryOption(params));
 };
 
-export const prefetchGateringList = async (queryClient: QueryClient) => {
-  return queryClient.prefetchInfiniteQuery(gatheringQueryOption());
+export const prefetchGateringList = async (
+  queryClient: QueryClient,
+  params?: string,
+) => {
+  if (params) console.log("[prefetchGateringList]", params);
+  return queryClient.prefetchInfiniteQuery(gatheringQueryOption(params));
 };

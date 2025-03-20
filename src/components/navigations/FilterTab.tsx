@@ -5,17 +5,26 @@ import { useEffect, useState } from "react";
 import MainTab from "@/components/navigations/MainTab";
 import SubTab from "@/components/navigations/SubTab";
 import useCustomSearchParams from "@/hooks/useCustomSearchParams";
+// import useParamsStore from "@/stores/useParamsStore";
+import { useParamsAction } from "@/stores/useParamsStore";
 
 const FilterTab = () => {
-  const { setSearchParams } = useCustomSearchParams();
+  //const { setParams } = useParamsStore(state => state);
+  const setParams = useParamsAction();
 
+  const { setSearchParams, setNewParams } = useCustomSearchParams();
   const [isOffline, setIsOffline] = useState<boolean>(true);
   const [activeMainTabIdx, setActiveMainTabIdx] = useState<number>(0);
+  const [activeSubTabIdx, setActiveSubTabIdx] = useState<number>(0);
 
   const onClickTab = (value: string) => {
-    setSearchParams({
+    const data = {
       type: value,
-    });
+    };
+    setSearchParams(data);
+    if (value) {
+      setParams(setNewParams(data, true));
+    }
   };
 
   useEffect(() => {
@@ -28,9 +37,15 @@ const FilterTab = () => {
       <MainTab
         onClickTab={value => onClickTab(value)}
         activeMainTabIdx={activeMainTabIdx}
+        setActiveSubTabIdx={setActiveSubTabIdx}
         setActiveMainTabIdx={setActiveMainTabIdx}
       />
-      <SubTab onClickTab={value => onClickTab(value)} isOffline={isOffline} />
+      <SubTab
+        onClickTab={value => onClickTab(value)}
+        activeSubTabIdx={activeSubTabIdx}
+        setActiveSubTabIdx={setActiveSubTabIdx}
+        isOffline={isOffline}
+      />
     </>
   );
 };

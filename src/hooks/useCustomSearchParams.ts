@@ -10,12 +10,17 @@ const useCustomSearchParams = () => {
   const _searchParams = useSearchParams();
   const searchParams = new URLSearchParams(_searchParams.toString());
 
-  const setNewParams = (newParams: NewParamsType) => {
+  const setNewParams = (
+    newParams: NewParamsType,
+    withQuestionMark?: boolean,
+  ) => {
     for (const [key, value] of Object.entries(newParams)) {
       if (value) searchParams.set(key, value);
       else searchParams.delete(key);
     }
-    return searchParams.toString();
+    return withQuestionMark
+      ? `?${searchParams.toString()}`
+      : searchParams.toString();
   };
 
   const setSearchParams = (
@@ -32,7 +37,11 @@ const useCustomSearchParams = () => {
     return router.push(`${pathname}?${setNewParams(_newParams)}`);
   };
 
-  return { searchParams: Object.fromEntries(searchParams), setSearchParams };
+  return {
+    searchParams: Object.fromEntries(searchParams),
+    setSearchParams,
+    setNewParams,
+  };
 };
 
 export default useCustomSearchParams;
